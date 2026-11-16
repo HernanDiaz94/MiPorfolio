@@ -1,8 +1,11 @@
-# Portfolio personal
+# Portfolio de Hernan Diaz
 
-Portfolio de una sola página construido con **Vite + React 19 + Tailwind CSS**.
-Los datos (perfil, proyectos y habilidades) pueden venir de **Supabase** o del
-contenido local de `src/content.js`.
+Portfolio personal de **Hernan Diaz**, Programador y Técnico en Informática
+(Catamarca, Argentina). Construido con **Vite + React 19 + Tailwind CSS** y
+desplegado en Netlify: https://miporfoliohd.netlify.app/
+
+Los datos (perfil, proyectos y habilidades) están en `src/content.js` o pueden
+venir de **Supabase**.
 
 ## Requisitos
 

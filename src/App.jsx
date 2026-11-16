@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Contact from './components/Contact'
+import { profile } from './content'
 
 const currentYear = new Date().getFullYear()
 
@@ -54,7 +55,7 @@ function App() {
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-gray-400 text-sm">
-            © {currentYear} Tu Portfolio · Hecho con React, Tailwind y Supabase
+            © {currentYear} {profile.full_name} · Hecho con React y Tailwind CSS
           </p>
         </div>
       </footer>

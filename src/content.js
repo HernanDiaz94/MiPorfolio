@@ -15,6 +15,15 @@ export const profile = {
 
 export const projects = [
   {
+    id: 'reservas-canchas',
+    nombre: 'Reservas de canchas',
+    descripcion:
+      'Aplicación web para reservar turnos en canchas: muestra la disponibilidad del día, confirma la reserva y permite consultar los turnos propios ingresando el teléfono.',
+    tecnologias: ['JavaScript', 'Supabase', 'API REST', 'Netlify'],
+    enlace_github: '',
+    enlace_demo: 'https://reservas-canchas.netlify.app/',
+  },
+  {
     id: 'openworknature',
     nombre: 'Open Work Nature',
     descripcion:

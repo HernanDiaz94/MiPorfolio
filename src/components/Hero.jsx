@@ -46,8 +46,8 @@ const Hero = () => {
             <img
               src={profile.avatar_url}
               alt={`Foto de ${profile.full_name}`}
-              width="128"
-              height="128"
+              width="400"
+              height="400"
               className="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-lg object-cover"
             />
           ) : (

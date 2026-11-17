@@ -6,7 +6,7 @@ export const profile = {
   full_name: 'Hernan Diaz',
   role: 'Programador · Técnico en Informática',
   bio: 'Programador y Técnico en Informática de Catamarca, Argentina. Me dedico al desarrollo web, combinando frontend y backend para construir aplicaciones claras y funcionales.',
-  avatar_url: '',
+  avatar_url: '/avatar.jpg',
   email: 'hernan.diiaz@gmail.com',
   location: 'San Fernando del Valle de Catamarca, Argentina',
   github: 'https://github.com/HernanDiaz94',

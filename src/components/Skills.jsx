@@ -82,6 +82,19 @@ const Skills = () => {
                     </span>
                   </div>
 
+                  {skill.detalle?.length > 0 && (
+                    <ul className="flex flex-wrap gap-1.5 mb-3">
+                      {skill.detalle.map((item) => (
+                        <li
+                          key={item}
+                          className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   <div
                     className="w-full bg-gray-200 rounded-full h-2"
                     role="progressbar"

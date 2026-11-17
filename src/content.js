@@ -56,13 +56,13 @@ export const skills = [
     id: 'skill-1',
     habilidad: 'Desarrollo web',
     nivel: 'Experto',
-    detalle: ['HTML', 'CSS', 'JavaScript', 'React', 'PHP', 'MySQL', 'Git'],
+    detalle: ['HTML', 'CSS', 'JavaScript', 'React', 'PHP', 'MySQL', 'Git', 'Bases de datos'],
   },
   {
     id: 'skill-2',
     habilidad: 'Desarrollo de aplicaciones',
     nivel: 'Intermedio',
-    detalle: ['Android Studio', 'Android SDK', 'React Native'],
+    detalle: ['Android Studio', 'Android SDK', 'React Native', 'Bases de datos'],
   },
   {
     id: 'skill-3',

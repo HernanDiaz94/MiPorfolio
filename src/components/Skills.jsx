@@ -22,6 +22,80 @@ const defaultLevel = {
   width: '50%',
 }
 
+const defaultCategory = 'Herramientas y otros'
+
+const categoryOrder = [
+  'Desarrollo web',
+  'Desarrollo de aplicaciones',
+  'Automatización RPA',
+  'Herramientas y otros',
+]
+
+const groupSkills = (skills) => {
+  const groups = new Map()
+
+  skills.forEach((skill) => {
+    const category = skill.categoria || defaultCategory
+    if (!groups.has(category)) groups.set(category, [])
+    groups.get(category).push(skill)
+  })
+
+  return [...groups.entries()]
+    .sort(([a], [b]) => {
+      const indexA = categoryOrder.indexOf(a)
+      const indexB = categoryOrder.indexOf(b)
+      return (
+        (indexA === -1 ? categoryOrder.length : indexA) -
+        (indexB === -1 ? categoryOrder.length : indexB)
+      )
+    })
+    .map(([nombre, items]) => ({ nombre, items }))
+}
+
+const SkillCard = ({ skill }) => {
+  const level = levels[skill.nivel] || defaultLevel
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+      <div className="flex justify-between items-center gap-3 mb-3">
+        <h4 className="text-lg font-semibold text-gray-800">{skill.habilidad}</h4>
+        <span
+          className={`shrink-0 px-2 py-1 rounded text-xs font-medium ${level.chip}`}
+        >
+          {skill.nivel || 'Sin nivel'}
+        </span>
+      </div>
+
+      {skill.detalle?.length > 0 && (
+        <ul className="flex flex-wrap gap-1.5 mb-3">
+          {skill.detalle.map((item) => (
+            <li
+              key={item}
+              className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div
+        className="w-full bg-gray-200 rounded-full h-2"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={parseInt(level.width, 10)}
+        aria-label={`Nivel de ${skill.habilidad}`}
+      >
+        <div
+          className={`h-2 rounded-full ${level.bar}`}
+          style={{ width: level.width }}
+        ></div>
+      </div>
+    </div>
+  )
+}
+
 const Skills = () => {
   const [skills, setSkills] = useState(fallbackSkills)
 
@@ -46,6 +120,8 @@ const Skills = () => {
     }
   }, [])
 
+  const groups = groupSkills(skills)
+
   return (
     <section id="habilidades" className="py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4">
@@ -53,64 +129,36 @@ const Skills = () => {
           Habilidades técnicas
         </h2>
         <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          Tecnologías con las que trabajo día a día, incluyendo desarrollo web y
-          automatización de procesos (RPA).
+          Desarrollo web, desarrollo de aplicaciones, automatización RPA y
+          herramientas de IA.
         </p>
 
-        {skills.length === 0 ? (
+        {groups.length === 0 ? (
           <p className="text-center text-gray-500">
             Todavía no hay habilidades cargadas.
           </p>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {skills.map((skill) => {
-              const level = levels[skill.nivel] || defaultLevel
+          <div className="space-y-12">
+            {groups.map((group) => (
+              <div key={group.nombre}>
+                <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-8 rounded-full bg-blue-600"
+                  ></span>
+                  {group.nombre}
+                  <span className="text-sm font-normal text-gray-500">
+                    {group.items.length}
+                  </span>
+                </h3>
 
-              return (
-                <div
-                  key={skill.id}
-                  className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition"
-                >
-                  <div className="flex justify-between items-center gap-3 mb-3">
-                    <h3 className="text-lg font-semibold text-gray-800">
-                      {skill.habilidad}
-                    </h3>
-                    <span
-                      className={`shrink-0 px-2 py-1 rounded text-xs font-medium ${level.chip}`}
-                    >
-                      {skill.nivel || 'Sin nivel'}
-                    </span>
-                  </div>
-
-                  {skill.detalle?.length > 0 && (
-                    <ul className="flex flex-wrap gap-1.5 mb-3">
-                      {skill.detalle.map((item) => (
-                        <li
-                          key={item}
-                          className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <div
-                    className="w-full bg-gray-200 rounded-full h-2"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow={parseInt(level.width, 10)}
-                    aria-label={`Nivel de ${skill.habilidad}`}
-                  >
-                    <div
-                      className={`h-2 rounded-full ${level.bar}`}
-                      style={{ width: level.width }}
-                    ></div>
-                  </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {group.items.map((skill) => (
+                    <SkillCard key={skill.id} skill={skill} />
+                  ))}
                 </div>
-              )
-            })}
+              </div>
+            ))}
           </div>
         )}
       </div>

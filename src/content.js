@@ -1,7 +1,3 @@
-// Contenido del portfolio.
-// Los proyectos y habilidades se tomaron de repositorios reales.
-// Niveles de habilidad: Experto / Intermedio / Principiante.
-
 export const profile = {
   full_name: 'Hernan Diaz',
   role: 'Programador · Técnico en Informática',
@@ -53,26 +49,63 @@ export const projects = [
   },
 ]
 
+// Categorías disponibles: Desarrollo web, Desarrollo de aplicaciones,
+// Automatización RPA y Herramientas y otros.
 export const skills = [
-  { id: 'skill-1', habilidad: 'HTML y CSS', nivel: 'Experto' },
-  { id: 'skill-2', habilidad: 'JavaScript', nivel: 'Intermedio' },
-  { id: 'skill-3', habilidad: 'PHP', nivel: 'Intermedio' },
-  { id: 'skill-4', habilidad: 'MySQL', nivel: 'Intermedio' },
-  { id: 'skill-5', habilidad: 'React', nivel: 'Intermedio' },
-  { id: 'skill-6', habilidad: 'Git', nivel: 'Intermedio' },
-  { id: 'skill-7', habilidad: 'UiPath', nivel: 'Intermedio' },
-  { id: 'skill-8', habilidad: 'Power Automate', nivel: 'Intermedio' },
-  { id: 'skill-9', habilidad: 'n8n', nivel: 'Intermedio' },
+  { id: 'skill-1', habilidad: 'HTML y CSS', nivel: 'Experto', categoria: 'Desarrollo web' },
+  { id: 'skill-2', habilidad: 'JavaScript', nivel: 'Intermedio', categoria: 'Desarrollo web' },
+  { id: 'skill-3', habilidad: 'React', nivel: 'Intermedio', categoria: 'Desarrollo web' },
+  { id: 'skill-4', habilidad: 'PHP', nivel: 'Intermedio', categoria: 'Desarrollo web' },
+  { id: 'skill-5', habilidad: 'MySQL', nivel: 'Intermedio', categoria: 'Desarrollo web' },
+  {
+    id: 'skill-6',
+    habilidad: 'Android Studio',
+    nivel: 'Intermedio',
+    categoria: 'Desarrollo de aplicaciones',
+  },
+  {
+    id: 'skill-7',
+    habilidad: 'Android SDK',
+    nivel: 'Intermedio',
+    categoria: 'Desarrollo de aplicaciones',
+  },
+  {
+    id: 'skill-8',
+    habilidad: 'React Native',
+    nivel: 'Intermedio',
+    categoria: 'Desarrollo de aplicaciones',
+  },
+  {
+    id: 'skill-9',
+    habilidad: 'UiPath',
+    nivel: 'Intermedio',
+    categoria: 'Automatización RPA',
+  },
   {
     id: 'skill-10',
+    habilidad: 'Power Automate',
+    nivel: 'Intermedio',
+    categoria: 'Automatización RPA',
+  },
+  { id: 'skill-11', habilidad: 'n8n', nivel: 'Intermedio', categoria: 'Automatización RPA' },
+  {
+    id: 'skill-12',
+    habilidad: 'Git',
+    nivel: 'Intermedio',
+    categoria: 'Herramientas y otros',
+  },
+  {
+    id: 'skill-13',
     habilidad: 'Manejo de herramientas de IA',
     nivel: 'Intermedio',
+    categoria: 'Herramientas y otros',
     detalle: ['Claude', 'OpenCode', 'Ollama', 'Hermes', 'Gemini', 'GPT'],
   },
   {
-    id: 'skill-11',
+    id: 'skill-14',
     habilidad: 'Ofimática',
     nivel: 'Intermedio',
+    categoria: 'Herramientas y otros',
     detalle: ['Paquete Office', 'Dactilografía'],
   },
 ]

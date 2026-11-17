@@ -105,8 +105,8 @@ create table public.skills (
   id uuid primary key default gen_random_uuid(),
   habilidad text not null,
   nivel text check (nivel in ('Experto', 'Intermedio', 'Principiante')),
-  categoria text default 'Herramientas y otros',
-  detalle text[]
+  detalle text[],
+  orden int default 0
 );
 
 alter table public.profiles enable row level security;

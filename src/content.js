@@ -49,63 +49,37 @@ export const projects = [
   },
 ]
 
-// Categorías disponibles: Desarrollo web, Desarrollo de aplicaciones,
-// Automatización RPA y Herramientas y otros.
+// Cada entrada es una tarjeta de habilidad: el título es el área y
+// "detalle" son las etiquetas de tecnologías que se muestran dentro.
 export const skills = [
-  { id: 'skill-1', habilidad: 'HTML y CSS', nivel: 'Experto', categoria: 'Desarrollo web' },
-  { id: 'skill-2', habilidad: 'JavaScript', nivel: 'Intermedio', categoria: 'Desarrollo web' },
-  { id: 'skill-3', habilidad: 'React', nivel: 'Intermedio', categoria: 'Desarrollo web' },
-  { id: 'skill-4', habilidad: 'PHP', nivel: 'Intermedio', categoria: 'Desarrollo web' },
-  { id: 'skill-5', habilidad: 'MySQL', nivel: 'Intermedio', categoria: 'Desarrollo web' },
   {
-    id: 'skill-6',
-    habilidad: 'Android Studio',
-    nivel: 'Intermedio',
-    categoria: 'Desarrollo de aplicaciones',
+    id: 'skill-1',
+    habilidad: 'Desarrollo web',
+    nivel: 'Experto',
+    detalle: ['HTML', 'CSS', 'JavaScript', 'React', 'PHP', 'MySQL', 'Git'],
   },
   {
-    id: 'skill-7',
-    habilidad: 'Android SDK',
+    id: 'skill-2',
+    habilidad: 'Desarrollo de aplicaciones',
     nivel: 'Intermedio',
-    categoria: 'Desarrollo de aplicaciones',
+    detalle: ['Android Studio', 'Android SDK', 'React Native'],
   },
   {
-    id: 'skill-8',
-    habilidad: 'React Native',
+    id: 'skill-3',
+    habilidad: 'Automatización RPA',
     nivel: 'Intermedio',
-    categoria: 'Desarrollo de aplicaciones',
+    detalle: ['UiPath', 'Power Automate', 'n8n'],
   },
   {
-    id: 'skill-9',
-    habilidad: 'UiPath',
-    nivel: 'Intermedio',
-    categoria: 'Automatización RPA',
-  },
-  {
-    id: 'skill-10',
-    habilidad: 'Power Automate',
-    nivel: 'Intermedio',
-    categoria: 'Automatización RPA',
-  },
-  { id: 'skill-11', habilidad: 'n8n', nivel: 'Intermedio', categoria: 'Automatización RPA' },
-  {
-    id: 'skill-12',
-    habilidad: 'Git',
-    nivel: 'Intermedio',
-    categoria: 'Herramientas y otros',
-  },
-  {
-    id: 'skill-13',
+    id: 'skill-4',
     habilidad: 'Manejo de herramientas de IA',
     nivel: 'Intermedio',
-    categoria: 'Herramientas y otros',
     detalle: ['Claude', 'OpenCode', 'Ollama', 'Hermes', 'Gemini', 'GPT'],
   },
   {
-    id: 'skill-14',
+    id: 'skill-5',
     habilidad: 'Ofimática',
     nivel: 'Intermedio',
-    categoria: 'Herramientas y otros',
     detalle: ['Paquete Office', 'Dactilografía'],
   },
 ]

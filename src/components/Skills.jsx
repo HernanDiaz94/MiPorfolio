@@ -53,7 +53,8 @@ const Skills = () => {
           Habilidades técnicas
         </h2>
         <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          Tecnologías con las que trabajo día a día.
+          Tecnologías con las que trabajo día a día, incluyendo desarrollo web y
+          automatización de procesos (RPA).
         </p>
 
         {skills.length === 0 ? (

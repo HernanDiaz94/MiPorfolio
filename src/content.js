@@ -5,7 +5,7 @@
 export const profile = {
   full_name: 'Hernan Diaz',
   role: 'Programador · Técnico en Informática',
-  bio: 'Programador y Técnico en Informática de Catamarca, Argentina. Me dedico al desarrollo web, combinando frontend y backend para construir aplicaciones claras y funcionales.',
+  bio: 'Programador y Técnico en Informática de Catamarca, Argentina. Me dedico al desarrollo web y a la automatización de procesos con RPA, combinando frontend y backend para construir aplicaciones claras y funcionales.',
   avatar_url: '/avatar.jpg',
   email: 'hernan.diiaz@gmail.com',
   location: 'San Fernando del Valle de Catamarca, Argentina',
@@ -60,4 +60,7 @@ export const skills = [
   { id: 'skill-4', habilidad: 'MySQL', nivel: 'Intermedio' },
   { id: 'skill-5', habilidad: 'React', nivel: 'Intermedio' },
   { id: 'skill-6', habilidad: 'Git', nivel: 'Intermedio' },
+  { id: 'skill-7', habilidad: 'UiPath', nivel: 'Intermedio' },
+  { id: 'skill-8', habilidad: 'Power Automate', nivel: 'Intermedio' },
+  { id: 'skill-9', habilidad: 'n8n', nivel: 'Intermedio' },
 ]

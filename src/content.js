@@ -63,4 +63,5 @@ export const skills = [
   { id: 'skill-7', habilidad: 'UiPath', nivel: 'Intermedio' },
   { id: 'skill-8', habilidad: 'Power Automate', nivel: 'Intermedio' },
   { id: 'skill-9', habilidad: 'n8n', nivel: 'Intermedio' },
+  { id: 'skill-10', habilidad: 'Manejo de herramientas de IA y ofimática', nivel: 'Intermedio' },
 ]

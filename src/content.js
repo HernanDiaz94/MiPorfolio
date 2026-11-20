@@ -4,6 +4,9 @@ export const profile = {
   bio: 'Programador y Técnico en Informática de Catamarca, Argentina. Me dedico al desarrollo web y a la automatización de procesos con RPA, combinando frontend y backend para construir aplicaciones claras y funcionales.',
   avatar_url: '/avatar.jpg',
   email: 'hernan.diiaz@gmail.com',
+  phone: '+54 9 383 426-3475',
+  whatsapp_message:
+    'Hola Hernan, te escribo desde tu portfolio. Me gustaría recibir información para desarrollar un sitio web.',
   location: 'San Fernando del Valle de Catamarca, Argentina',
   github: 'https://github.com/HernanDiaz94',
   linkedin: 'https://www.linkedin.com/in/hdiaz94/',

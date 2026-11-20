@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
-import { supabase, isSupabaseConfigured } from '../supabase'
-import { profile as fallbackProfile } from '../content'
+import { useProfile } from '../hooks/useProfile'
 
 const initials = (name = '') =>
   name
@@ -11,24 +9,7 @@ const initials = (name = '') =>
     .join('')
 
 const Hero = () => {
-  const [profile, setProfile] = useState(fallbackProfile)
-
-  useEffect(() => {
-    if (!isSupabaseConfigured) return
-
-    let cancelled = false
-
-    const fetchProfile = async () => {
-      const { data } = await supabase.from('profiles').select('*').single()
-      if (!cancelled && data) setProfile({ ...fallbackProfile, ...data })
-    }
-
-    fetchProfile()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  const profile = useProfile()
 
   const socials = [
     { href: profile.github, label: 'GitHub' },

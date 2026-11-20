@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase, isSupabaseConfigured } from '../supabase'
 import { skills as fallbackSkills } from '../content'
+import { sortByLevel } from '../utils/skillLevel'
 
 const levels = {
   Experto: { chip: 'bg-green-100 text-green-800', bar: 'bg-green-500', width: '90%' },
@@ -69,7 +70,7 @@ const SkillCard = ({ skill }) => {
 }
 
 const Skills = () => {
-  const [skills, setSkills] = useState(fallbackSkills)
+  const [skills, setSkills] = useState(() => sortByLevel(fallbackSkills))
 
   useEffect(() => {
     if (!isSupabaseConfigured) return
@@ -80,9 +81,9 @@ const Skills = () => {
       const { data, error } = await supabase
         .from('skills')
         .select('*')
-        .order('nivel', { ascending: false })
+        .order('orden', { ascending: true })
 
-      if (!cancelled && !error && data?.length) setSkills(data)
+      if (!cancelled && !error && data?.length) setSkills(sortByLevel(data))
     }
 
     fetchSkills()

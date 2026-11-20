@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-import { supabase, isSupabaseConfigured } from '../supabase'
-import { profile as fallbackProfile } from '../content'
+import { useState } from 'react'
+import { useProfile } from '../hooks/useProfile'
 
 const links = [
   { href: '#proyectos', label: 'Proyectos' },
@@ -9,31 +8,8 @@ const links = [
 ]
 
 const Header = () => {
-  const [profile, setProfile] = useState(fallbackProfile)
+  const profile = useProfile()
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    if (!isSupabaseConfigured) return
-
-    let cancelled = false
-
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .single()
-
-      if (!cancelled && !error && data) {
-        setProfile({ ...fallbackProfile, ...data })
-      }
-    }
-
-    fetchProfile()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   return (
     <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">

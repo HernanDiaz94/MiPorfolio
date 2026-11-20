@@ -33,6 +33,7 @@ El sitio queda disponible en http://localhost:3000.
 | `npm run build` | Build de producción en `dist/` |
 | `npm run preview` | Sirve el build de producción |
 | `npm run lint` | Ejecuta Oxlint |
+| `npm test` | Ejecuta los tests (Node test runner) |
 
 ## Variables de entorno
 
@@ -51,16 +52,25 @@ index.html              Metadatos, SEO y formulario oculto de Netlify Forms
 netlify.toml            Configuración de build, redirects y headers
 src/
   main.jsx              Punto de entrada
-  App.js                Layout general y animaciones al hacer scroll
+  App.jsx               Layout general, animaciones y proveedor de perfil
   content.js            Contenido de respaldo (editable)
   supabase.js           Cliente de Supabase (opcional)
   index.css             Tailwind + estilos base
+  context/
+    ProfileContext.js   Contexto del perfil
+    ProfileProvider.jsx Pide el perfil una vez y lo comparte
+  hooks/
+    useProfile.js       Hook para consumir el perfil
+  utils/
+    skillLevel.js       Orden de habilidades por nivel
   components/
-    Header.js           Navegación sticky con menú móvil
-    Hero.js             Presentación y llamadas a la acción
-    Projects.js         Grilla de proyectos
-    Skills.js           Habilidades con barra de nivel
-    Contact.js          Datos de contacto y formulario
+    Header.jsx          Navegación sticky con menú móvil
+    Hero.jsx            Presentación y llamadas a la acción
+    Projects.jsx        Grilla de proyectos
+    Skills.jsx          Habilidades con barra de nivel
+    Contact.jsx         Datos de contacto y formulario
+public/
+  404.html              Página de error 404 (se copia tal cual a dist)
 ```
 
 ## Personalizar

@@ -99,16 +99,6 @@ const Projects = () => {
                         Demo
                       </a>
                     )}
-                    {project.enlace_web && (
-                      <a
-                        href={project.enlace_web}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-700 font-medium hover:text-blue-600 transition"
-                      >
-                        Web
-                      </a>
-                    )}
                   </div>
                 </div>
               </article>

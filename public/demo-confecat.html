@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo · Confecat S.A. — Gestión de Personal</title>
+    <style>
+      :root {
+        --ink: #111827;
+        --ink-2: #1f2937;
+        --acceso: #f2c14e;
+        --bg: #f4f5f7;
+        --card: #ffffff;
+        --borde: #e5e7eb;
+        --txt: #111827;
+        --txt-2: #6b7280;
+        --ok: #15803d;
+        --baja: #b91c1c;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg); color: var(--txt); min-height: 100vh;
+      }
+      .hidden { display: none !important; }
+
+      .topbar {
+        background: var(--ink); color: #fff; padding: 12px 20px;
+        display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      }
+      .brand { display: flex; align-items: center; gap: 10px; }
+      .logo {
+        width: 34px; height: 34px; border-radius: 8px; background: var(--acceso);
+        color: var(--ink); font-weight: 800; display: flex; align-items: center; justify-content: center;
+      }
+      .brand b { font-size: 15px; display: block; }
+      .brand small { color: #9ca3af; font-size: 11px; }
+      .topbar-right { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #d1d5db; }
+      .badge {
+        background: rgba(242, 193, 78, .16); color: var(--acceso);
+        border: 1px solid rgba(242, 193, 78, .4); font-size: 11px; font-weight: 700;
+        padding: 4px 10px; border-radius: 999px;
+      }
+      .salir {
+        background: transparent; border: 1px solid #374151; color: #d1d5db;
+        font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+      }
+      .salir:hover { background: #1f2937; }
+
+      main { max-width: 1020px; margin: 0 auto; padding: 20px; }
+
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+      .stat { background: var(--card); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; }
+      .stat b { font-size: 24px; display: block; }
+      .stat span { font-size: 11px; color: var(--txt-2); text-transform: uppercase; letter-spacing: .5px; }
+
+      .toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
+      .toolbar input, .toolbar select {
+        border: 1px solid var(--borde); border-radius: 10px; padding: 9px 12px;
+        font-size: 13px; background: #fff; color: var(--txt);
+      }
+      .toolbar input { flex: 1; }
+      .btn {
+        background: var(--ink); color: #fff; border: 0; border-radius: 10px;
+        padding: 9px 14px; font-size: 13px; font-weight: 700; cursor: pointer;
+      }
+      .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+      .lista { display: grid; gap: 8px; }
+      .fila {
+        background: var(--card); border: 1px solid var(--borde); border-radius: 12px;
+        padding: 12px 14px; display: grid; grid-template-columns: 1fr 90px 110px 90px;
+        align-items: center; gap: 10px; cursor: pointer; font-size: 13px;
+      }
+      .fila:hover { border-color: #cbd5e1; }
+      .fila .nombre { font-weight: 700; }
+      .fila .dni { color: var(--txt-2); font-size: 12px; }
+      .estado { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; text-align: center; }
+      .estado.activo { background: #dcfce7; color: var(--ok); }
+      .estado.baja { background: #fee2e2; color: var(--baja); }
+      .puesto { color: var(--txt-2); font-size: 12px; }
+      .vacio { color: var(--txt-2); font-size: 13px; padding: 20px; text-align: center; }
+
+      /* Login */
+      .login-wrap { display: flex; justify-content: center; padding: 48px 20px; }
+      .login-card {
+        background: #fff; border: 1px solid var(--borde); border-radius: 16px;
+        padding: 28px; width: 100%; max-width: 400px;
+      }
+      .login-card h1 { font-size: 20px; margin-bottom: 6px; }
+      .login-card p { font-size: 13px; color: var(--txt-2); margin-bottom: 18px; }
+      .campo { margin-bottom: 12px; }
+      .campo label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+      .campo input, .campo select {
+        width: 100%; border: 1px solid var(--borde); border-radius: 10px;
+        padding: 10px 12px; font-size: 13px; background: #fff;
+      }
+      .error { color: var(--baja); font-size: 12px; font-weight: 600; min-height: 16px; margin-bottom: 8px; }
+      .acceso-rapido { font-size: 11px; color: var(--txt-2); margin-top: 14px; line-height: 1.5; }
+      .acceso-rapido code { background: #f3f4f6; padding: 1px 5px; border-radius: 5px; }
+
+      dialog { border: 0; border-radius: 16px; padding: 0; max-width: 460px; width: calc(100% - 32px); }
+      dialog::backdrop { background: rgba(0, 0, 0, .5); }
+      .dialog-body { padding: 20px; }
+      .dialog-body h2 { font-size: 16px; margin-bottom: 12px; }
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .dialog-actions { display: flex; gap: 8px; margin-top: 16px; }
+      .dialog-actions button {
+        flex: 1; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+        border: 1px solid var(--borde); background: #fff; color: var(--txt);
+      }
+      .dialog-actions .ok { background: var(--ink); border-color: var(--ink); color: #fff; }
+      .ficha dt { font-size: 11px; color: var(--txt-2); text-transform: uppercase; letter-spacing: .4px; margin-top: 10px; }
+      .ficha dd { font-size: 13px; font-weight: 600; }
+      .historial { margin-top: 14px; border-top: 1px solid var(--borde); padding-top: 10px; }
+      .historial li { font-size: 12px; color: var(--txt-2); margin-left: 16px; margin-bottom: 4px; }
+
+      #toast {
+        position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+        background: var(--ink); color: #fff; font-size: 13px; font-weight: 600;
+        padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
+        transition: opacity .2s, transform .2s;
+      }
+      #toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">C</span>
+        <div><b>Confecat S.A.</b><small>Gestión de personal</small></div>
+      </div>
+      <div class="topbar-right">
+        <span class="badge">Modo demo</span>
+        <span id="usuario"></span>
+        <button class="salir" id="salir">Salir</button>
+      </div>
+    </header>
+
+    <!-- Login -->
+    <main id="login" class="login-wrap">
+      <div class="login-card">
+        <h1>Iniciar sesión</h1>
+        <p>Acceso exclusivo para el personal de administración y RRHH.</p>
+        <form id="formLogin">
+          <div class="campo">
+            <label for="user">Usuario</label>
+            <input id="user" autocomplete="username" placeholder="admin" />
+          </div>
+          <div class="campo">
+            <label for="pass">Contraseña</label>
+            <input id="pass" type="password" autocomplete="current-password" placeholder="demo" />
+          </div>
+          <div class="error" id="loginError"></div>
+          <button class="btn" type="submit" style="width:100%">Ingresar</button>
+        </form>
+        <p class="acceso-rapido">
+          Usuarios de la demo (clave <code>demo</code>): <code>admin</code>, <code>rrhh</code> y <code>consulta</code>.
+        </p>
+      </div>
+    </main>
+
+    <!-- Panel -->
+    <main id="panel" class="hidden">
+      <section class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>Legajos</span></div>
+        <div class="stat"><b id="sActivos">0</b><span>Activos</span></div>
+        <div class="stat"><b id="sSectores">0</b><span>Sectores</span></div>
+      </section>
+
+      <section class="toolbar">
+        <input id="buscar" placeholder="Buscar por apellido, nombre, DNI o legajo…" />
+        <select id="filtroSector"><option value="">Todos los sectores</option></select>
+        <button class="btn" id="nuevo">+ Nuevo legajo</button>
+      </section>
+
+      <section class="lista" id="lista"></section>
+    </main>
+
+    <!-- Ficha -->
+    <dialog id="ficha">
+      <div class="dialog-body">
+        <h2 id="fichaTitulo"></h2>
+        <dl class="ficha" id="fichaDatos"></dl>
+        <ul class="historial" id="fichaHistorial"></ul>
+        <div class="dialog-actions">
+          <button id="fichaCerrar">Cerrar</button>
+          <button class="ok" id="fichaBaja">Dar de baja</button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Nuevo legajo -->
+    <dialog id="nuevoModal">
+      <div class="dialog-body">
+        <h2>Nuevo legajo</h2>
+        <div class="grid-2">
+          <div class="campo"><label>Apellido</label><input id="nApellido" /></div>
+          <div class="campo"><label>Nombre</label><input id="nNombre" /></div>
+          <div class="campo"><label>DNI</label><input id="nDni" inputmode="numeric" /></div>
+          <div class="campo"><label>Sector</label>
+            <select id="nSector"></select>
+          </div>
+          <div class="campo"><label>Puesto</label><input id="nPuesto" /></div>
+          <div class="campo"><label>Fecha de ingreso</label><input id="nIngreso" type="date" /></div>
+        </div>
+        <div class="error" id="nError"></div>
+        <div class="dialog-actions">
+          <button id="nCancelar">Cancelar</button>
+          <button class="ok" id="nGuardar">Guardar</button>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="toast"></div>
+
+    <script>
+      const CLAVE = 'demo-confecat';
+      const USUARIOS = [
+        { user: 'admin', nombre: 'Administración', rol: 'Administrador' },
+        { user: 'rrhh', nombre: 'RRHH', rol: 'RRHH' },
+        { user: 'consulta', nombre: 'Consulta', rol: 'Consulta' },
+      ];
+      const SECTORES = ['Administración', 'Producción', 'Depósito', 'Mantenimiento', 'Ventas'];
+
+      const SEED = [
+        { legajo: '0001', apellido: 'Gómez', nombre: 'María Fernanda', dni: '25847362', sector: 'Administración', puesto: 'Administrativa', estado: 'activo', ingreso: '2019-03-11', email: 'mf.gomez@confecat.com', telefono: '383 411 2233' },
+        { legajo: '0002', apellido: 'Díaz', nombre: 'Hernán Agustín', dni: '30987415', sector: 'Producción', puesto: 'Operario', estado: 'activo', ingreso: '2020-07-06', email: 'ha.diaz@confecat.com', telefono: '383 426 3475' },
+        { legajo: '0003', apellido: 'Quiroga', nombre: 'Lucía', dni: '27963148', sector: 'Ventas', puesto: 'Vendedora', estado: 'activo', ingreso: '2021-01-18', email: 'l.quiroga@confecat.com', telefono: '383 438 9012' },
+        { legajo: '0004', apellido: 'Rojas', nombre: 'Carlos', dni: '23784561', sector: 'Depósito', puesto: 'Encargado', estado: 'activo', ingreso: '2018-05-02', email: 'c.rojas@confecat.com', telefono: '383 455 6789' },
+        { legajo: '0005', apellido: 'Sosa', nombre: 'Andrea', dni: '32145698', sector: 'Producción', puesto: 'Supervisora', estado: 'activo', ingreso: '2022-09-12', email: 'a.sosa@confecat.com', telefono: '383 409 1357' },
+        { legajo: '0006', apellido: 'Maldonado', nombre: 'Jorge', dni: '19874563', sector: 'Mantenimiento', puesto: 'Técnico', estado: 'baja', ingreso: '2016-11-23', email: 'j.maldonado@confecat.com', telefono: '383 477 2468' },
+        { legajo: '0007', apellido: 'Vera', nombre: 'Paula', dni: '34561278', sector: 'Administración', puesto: 'Contadora', estado: 'activo', ingreso: '2023-02-01', email: 'p.vera@confecat.com', telefono: '383 402 8642' },
+        { legajo: '0008', apellido: 'Aguirre', nombre: 'Diego', dni: '28741369', sector: 'Producción', puesto: 'Operario', estado: 'activo', ingreso: '2020-04-15', email: 'd.aguirre@confecat.com', telefono: '383 466 7391' },
+      ];
+
+      let sesion = JSON.parse(localStorage.getItem(CLAVE + '-user') || 'null');
+      let empleados = cargar();
+
+      function cargar() {
+        try {
+          const datos = JSON.parse(localStorage.getItem(CLAVE));
+          if (Array.isArray(datos) && datos.length) return datos;
+        } catch {}
+        return SEED.map((e) => ({ ...e, historial: ['Alta del legajo'] }));
+      }
+      function guardar() {
+        localStorage.setItem(CLAVE, JSON.stringify(empleados));
+      }
+
+      // Dígito verificador del CUIL (prefijo 20 + DNI).
+      function cuilDesdeDni(dni) {
+        const base = '20' + dni.padStart(8, '0');
+        const factores = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+        let suma = 0;
+        for (let i = 0; i < 10; i++) suma += Number(base[i]) * factores[i];
+        const resto = 11 - (suma % 11);
+        const digito = resto === 11 ? 0 : resto === 10 ? 9 : resto;
+        return base + digito;
+      }
+
+      function fechaLocal() {
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      }
+
+      const $ = (id) => document.getElementById(id);
+
+      function toast(texto) {
+        const t = $('toast');
+        t.textContent = texto;
+        t.classList.add('visible');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('visible'), 2200);
+      }
+
+      function mostrarPanel() {
+        $('login').classList.add('hidden');
+        $('panel').classList.remove('hidden');
+        const u = USUARIOS.find((x) => x.user === sesion);
+        $('usuario').textContent = u ? u.nombre + ' · ' + u.rol : '';
+        llenarSectores();
+        render();
+      }
+
+      function mostrarLogin() {
+        $('panel').classList.add('hidden');
+        $('login').classList.remove('hidden');
+        $('loginError').textContent = '';
+      }
+
+      $('formLogin').onsubmit = (e) => {
+        e.preventDefault();
+        const user = $('user').value.trim().toLowerCase();
+        const nombre = user.includes('@') ? 'admin' : user;
+        const ok = USUARIOS.some((u) => u.user === nombre) && $('pass').value === 'demo';
+        if (!ok) {
+          $('loginError').textContent = 'Credenciales inválidas. Usá admin y la clave demo.';
+          return;
+        }
+        sesion = nombre;
+        localStorage.setItem(CLAVE + '-user', JSON.stringify(sesion));
+        mostrarPanel();
+      };
+
+      $('salir').onclick = () => {
+        sesion = null;
+        localStorage.removeItem(CLAVE + '-user');
+        mostrarLogin();
+      };
+
+      function llenarSectores() {
+        const sel = $('filtroSector');
+        const actual = sel.value;
+        sel.innerHTML = '<option value="">Todos los sectores</option>';
+        SECTORES.forEach((s) => {
+          const o = document.createElement('option');
+          o.value = s;
+          o.textContent = s;
+          sel.appendChild(o);
+        });
+        sel.value = actual;
+
+        const nsel = $('nSector');
+        nsel.innerHTML = '';
+        SECTORES.forEach((s) => {
+          const o = document.createElement('option');
+          o.value = s;
+          o.textContent = s;
+          nsel.appendChild(o);
+        });
+      }
+
+      function render() {
+        const activos = empleados.filter((e) => e.estado === 'activo').length;
+        $('sTotal').textContent = empleados.length;
+        $('sActivos').textContent = activos;
+        $('sSectores').textContent = new Set(empleados.map((e) => e.sector)).size;
+
+        const q = $('buscar').value.trim().toLowerCase();
+        const sector = $('filtroSector').value;
+        const lista = empleados.filter((e) => {
+          const texto = (e.apellido + ' ' + e.nombre + ' ' + e.dni + ' ' + e.legajo).toLowerCase();
+          return (!q || texto.includes(q)) && (!sector || e.sector === sector);
+        });
+
+        const cont = $('lista');
+        cont.innerHTML = '';
+        if (lista.length === 0) {
+          cont.innerHTML = '<p class="vacio">Sin resultados.</p>';
+          return;
+        }
+        lista.forEach((e, i) => {
+          const fila = document.createElement('div');
+          fila.className = 'fila';
+          fila.innerHTML =
+            '<div><div class="nombre">' + e.apellido + ', ' + e.nombre + '</div>' +
+            '<div class="dni">DNI ' + e.dni + ' · Legajo ' + e.legajo + '</div></div>' +
+            '<div class="puesto">' + e.sector + '</div>' +
+            '<div class="puesto">' + e.puesto + '</div>' +
+            '<span class="estado ' + e.estado + '">' + (e.estado === 'activo' ? 'Activo' : 'Baja') + '</span>';
+          fila.onclick = () => verFicha(empleados.indexOf(e));
+          cont.appendChild(fila);
+        });
+      }
+
+      function verFicha(idx) {
+        const e = empleados[idx];
+        $('fichaTitulo').textContent = e.apellido + ', ' + e.nombre;
+        $('fichaDatos').innerHTML =
+          '<dt>Legajo</dt><dd>' + e.legajo + '</dd>' +
+          '<dt>DNI</dt><dd>' + e.dni + '</dd>' +
+          '<dt>CUIL</dt><dd>' + cuilDesdeDni(e.dni) + '</dd>' +
+          '<dt>Sector</dt><dd>' + e.sector + '</dd>' +
+          '<dt>Puesto</dt><dd>' + e.puesto + '</dd>' +
+          '<dt>Ingreso</dt><dd>' + e.ingreso + '</dd>' +
+          '<dt>Email</dt><dd>' + e.email + '</dd>' +
+          '<dt>Teléfono</dt><dd>' + e.telefono + '</dd>' +
+          '<dt>Estado</dt><dd>' + (e.estado === 'activo' ? 'Activo' : 'Baja') + '</dd>';
+        $('fichaHistorial').innerHTML = (e.historial || [])
+          .map((h) => '<li>' + h + '</li>').join('');
+        $('fichaBaja').textContent = e.estado === 'activo' ? 'Dar de baja' : 'Reactivar';
+        $('fichaBaja').onclick = () => {
+          e.estado = e.estado === 'activo' ? 'baja' : 'activo';
+          e.historial = e.historial || [];
+          e.historial.push(e.estado === 'activo' ? 'Reactivación del legajo' : 'Baja del legajo');
+          guardar();
+          ficha.close();
+          render();
+          toast(e.estado === 'activo' ? 'Legajo reactivado' : 'Legajo dado de baja');
+        };
+        ficha.showModal();
+      }
+      $('fichaCerrar').onclick = () => ficha.close();
+
+      $('nuevo').onclick = () => {
+        $('nError').textContent = '';
+        $('nApellido').value = '';
+        $('nNombre').value = '';
+        $('nDni').value = '';
+        $('nPuesto').value = '';
+        $('nIngreso').value = fechaLocal();
+        nuevoModal.showModal();
+      };
+      $('nCancelar').onclick = () => nuevoModal.close();
+      $('nGuardar').onclick = () => {
+        const apellido = $('nApellido').value.trim();
+        const nombre = $('nNombre').value.trim();
+        const dni = $('nDni').value.trim();
+        const sector = $('nSector').value;
+        const puesto = $('nPuesto').value.trim();
+        const ingreso = $('nIngreso').value;
+
+        if (!apellido || !nombre) return nError('Apellido y nombre son obligatorios.');
+        if (!/^\d{7,8}$/.test(dni)) return nError('El DNI debe tener 7 u 8 dígitos.');
+        if (empleados.some((e) => e.dni === dni)) return nError('Ya existe un legajo con ese DNI.');
+        if (!puesto) return nError('El puesto es obligatorio.');
+
+        const legajo = String(Math.max(0, ...empleados.map((e) => Number(e.legajo) || 0)) + 1).padStart(4, '0');
+        empleados.push({
+          legajo, apellido, nombre, dni, sector, puesto,
+          estado: 'activo', ingreso,
+          email: (nombre.split(' ')[0] + '.' + apellido).toLowerCase().replace(/\s+/g, '') + '@confecat.com',
+          telefono: '383 400 0000',
+          historial: ['Alta del legajo'],
+        });
+        guardar();
+        nuevoModal.close();
+        render();
+        toast('Legajo ' + legajo + ' creado');
+      };
+
+      function nError(msg) { $('nError').textContent = msg; }
+
+      $('buscar').oninput = render;
+      $('filtroSector').onchange = render;
+
+      if (sesion) mostrarPanel();
+      else mostrarLogin();
+    </script>
+  </body>
+</html>

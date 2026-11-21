@@ -14,6 +14,16 @@ export const profile = {
 
 export const projects = [
   {
+    id: 'confecat-rrhh',
+    nombre: 'Confecat S.A. — Gestión de Personal',
+    descripcion:
+      'Sistema interno de legajo digital: altas y bajas de empleados, datos laborales, catálogos de sectores y puestos, importación masiva desde Excel e historial de cambios.',
+    tecnologias: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase'],
+    imagen_url: '/confecat-rrhh.jpg',
+    enlace_github: 'https://github.com/HernanDiaz94/confecat-rrhh',
+    enlace_demo: '/demo-confecat.html',
+  },
+  {
     id: 'tienda-nys',
     nombre: 'NyS Indumentaria',
     descripcion:
@@ -32,7 +42,6 @@ export const projects = [
     imagen_url: '/reservas-canchas.jpg',
     enlace_github: 'https://github.com/HernanDiaz94/reservas-canchas',
     enlace_demo: '/demo-reservas.html',
-    enlace_web: 'https://reservas-canchas.netlify.app/',
   },
   {
     id: 'openworknature',

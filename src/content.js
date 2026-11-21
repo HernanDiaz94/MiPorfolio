@@ -14,13 +14,25 @@ export const profile = {
 
 export const projects = [
   {
+    id: 'tienda-nys',
+    nombre: 'NyS Indumentaria',
+    descripcion:
+      'Tienda online mobile-first para una marca urbana: catálogo con filtros y búsqueda, detalle de producto, bolsa sin registro, stock real y panel privado con CRUD completo.',
+    tecnologias: ['React', 'Vite', 'Supabase', 'JavaScript'],
+    imagen_url: '/tienda-nys.jpg',
+    enlace_github: 'https://github.com/HernanDiaz94/TiendaNyS',
+    enlace_demo: 'https://tienda-nys.vercel.app/',
+  },
+  {
     id: 'reservas-canchas',
     nombre: 'Reservas de canchas',
     descripcion:
-      'Aplicación web para reservar turnos en canchas: muestra la disponibilidad del día, confirma la reserva y permite consultar los turnos propios ingresando el teléfono.',
-    tecnologias: ['JavaScript', 'Supabase', 'API REST', 'Netlify'],
-    enlace_github: '',
-    enlace_demo: 'https://reservas-canchas.netlify.app/',
+      'App móvil para reservar turnos en canchas: consultá la disponibilidad del día, reservá tu turno y gestioná tus reservas desde el celular, con panel para complejos y administración.',
+    tecnologias: ['React Native', 'Expo', 'Node.js', 'PostgreSQL', 'JWT'],
+    imagen_url: '/reservas-canchas.jpg',
+    enlace_github: 'https://github.com/HernanDiaz94/reservas-canchas',
+    enlace_demo: '/demo-reservas.html',
+    enlace_web: 'https://reservas-canchas.netlify.app/',
   },
   {
     id: 'openworknature',
@@ -28,6 +40,7 @@ export const projects = [
     descripcion:
       'Sitio web institucional para Open Work Nature, con secciones de servicios, proyectos y blog, y formulario de contacto con envío de emails.',
     tecnologias: ['HTML', 'CSS', 'JavaScript', 'PHP'],
+    imagen_url: '/open-work-nature.jpg',
     enlace_github: 'https://github.com/HernanDiaz94/OpenWorkNature',
     enlace_demo: 'https://hernandiaz94.github.io/OpenWorkNature/',
   },
@@ -37,17 +50,8 @@ export const projects = [
     descripcion:
       'Aplicación web con inicio de sesión y ABM de usuarios, oficinas e insumos, además del registro y seguimiento de problemas.',
     tecnologias: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS'],
+    imagen_url: '/gestion-insumos.jpg',
     enlace_github: 'https://github.com/HernanDiaz94/TrabajoFinal23',
-    enlace_demo: '',
-  },
-  {
-    id: 'portfolio-cv',
-    nombre: 'Portfolio y CV web',
-    descripcion:
-      'Sitio personal desarrollado como proyecto final de Argentina Programa 4.0, con presentación, proyectos y currículum descargable.',
-    tecnologias: ['HTML', 'CSS', 'JavaScript'],
-    enlace_github:
-      'https://github.com/HernanDiaz94/Argentina-programa-pf-HernanDiaz',
     enlace_demo: '',
   },
 ]

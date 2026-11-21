@@ -91,11 +91,22 @@ const Projects = () => {
                     {project.enlace_demo && (
                       <a
                         href={project.enlace_demo}
+                        {...(project.enlace_demo.startsWith('/')
+                          ? {}
+                          : { target: '_blank', rel: 'noopener noreferrer' })}
+                        className="text-gray-700 font-medium hover:text-blue-600 transition"
+                      >
+                        Demo
+                      </a>
+                    )}
+                    {project.enlace_web && (
+                      <a
+                        href={project.enlace_web}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-700 font-medium hover:text-blue-600 transition"
                       >
-                        Demo
+                        Web
                       </a>
                     )}
                   </div>

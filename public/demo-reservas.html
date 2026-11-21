@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo · Reserva de Canchas</title>
+    <style>
+      :root {
+        --grass: #2e7d32;
+        --grass-dark: #1b5e20;
+        --bg: #f5f5f5;
+        --card: #ffffff;
+        --text: #212121;
+        --text-2: #757575;
+        --border: #e0e0e0;
+        --red: #d32f2f;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        padding: 20px 14px 40px;
+      }
+      .app { max-width: 430px; margin: 0 auto; }
+
+      header {
+        background: linear-gradient(135deg, var(--grass) 0%, var(--grass-dark) 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .logo {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: rgba(255, 255, 255, .18);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 18px;
+      }
+      .brand { font-size: 18px; font-weight: 800; }
+      .header-sub { font-size: 12px; opacity: .85; }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      h2 { font-size: 16px; margin-bottom: 12px; }
+      label { display: block; font-size: 12px; font-weight: 700; color: var(--text-2); margin: 12px 0 6px; }
+
+      .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+      .chip {
+        border: 1px solid var(--border); background: #fff; color: var(--text);
+        border-radius: 12px; padding: 8px 10px; font-size: 12px; font-weight: 600;
+        cursor: pointer; text-align: left; line-height: 1.35;
+      }
+      .chip small { display: block; color: var(--text-2); font-weight: 500; }
+      .chip.active { border-color: var(--grass); background: #e8f5e9; color: var(--grass-dark); }
+      .chip.active small { color: var(--grass); }
+
+      .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .slot {
+        border: 1px solid var(--border); background: #fff; color: var(--text);
+        border-radius: 10px; padding: 9px 0; font-size: 12px; font-weight: 600;
+        cursor: pointer;
+      }
+      .slot.ocupado { background: #f0f0f0; color: #bdbdbd; text-decoration: line-through; cursor: not-allowed; }
+      .slot.mio { background: var(--grass-dark); border-color: var(--grass-dark); color: #fff; }
+      .slot.seleccionado { border-color: var(--grass); background: #e8f5e9; color: var(--grass-dark); }
+      .slot:disabled { opacity: .5; cursor: not-allowed; }
+
+      .leyenda { display: flex; gap: 14px; margin-top: 10px; font-size: 11px; color: var(--text-2); }
+      .punto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+      button.accion {
+        width: 100%; margin-top: 14px; border: 0; border-radius: 12px;
+        background: var(--grass); color: #fff; font-size: 14px; font-weight: 700;
+        padding: 12px; cursor: pointer;
+      }
+      button.accion:disabled { background: var(--border); color: #9e9e9e; cursor: not-allowed; }
+
+      .reserva {
+        display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
+      }
+      .reserva .datos { font-size: 12px; color: var(--text-2); }
+      .reserva .datos b { display: block; color: var(--text); font-size: 13px; }
+      .cancelar {
+        border: 0; background: transparent; color: var(--red); font-size: 12px;
+        font-weight: 700; cursor: pointer;
+      }
+      .vacio { font-size: 13px; color: var(--text-2); }
+
+      .nota { font-size: 11px; color: var(--text-2); text-align: center; }
+
+      #toast {
+        position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+        background: var(--grass-dark); color: #fff; font-size: 13px; font-weight: 600;
+        padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
+        transition: opacity .2s, transform .2s;
+      }
+      #toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      dialog {
+        border: 0; border-radius: 16px; padding: 0; max-width: 340px; width: calc(100% - 32px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
+      }
+      dialog::backdrop { background: rgba(0, 0, 0, .5); }
+      .modal-body { padding: 20px; }
+      .modal-body h3 { font-size: 16px; margin-bottom: 8px; }
+      .modal-body p { font-size: 13px; color: var(--text-2); line-height: 1.5; margin-bottom: 16px; }
+      .modal-actions { display: flex; gap: 8px; }
+      .modal-actions button {
+        flex: 1; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+        border: 1px solid var(--border); background: #fff; color: var(--text);
+      }
+      .modal-actions .ok { background: var(--grass); border-color: var(--grass); color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="logo">FC</div>
+        <div>
+          <div class="brand">FutbolCanchas</div>
+          <div class="header-sub">Futbol Center · San Fernando del Valle de Catamarca</div>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>Reservá tu turno</h2>
+        <label>Cancha</label>
+        <div class="chips" id="canchas"></div>
+        <label>Fecha</label>
+        <div class="chips" id="fechas"></div>
+        <label>Horario</label>
+        <div class="grid" id="horarios"></div>
+        <div class="leyenda">
+          <span><span class="punto" style="background:#fff;border:1px solid #bbb"></span>Disponible</span>
+          <span><span class="punto" style="background:#1b5e20"></span>Tu reserva</span>
+          <span><span class="punto" style="background:#e0e0e0"></span>Ocupado</span>
+        </div>
+        <button class="accion" id="confirmar" disabled>Confirmar reserva</button>
+      </section>
+
+      <section class="card">
+        <h2>Mis reservas</h2>
+        <div id="mis"></div>
+      </section>
+
+      <p class="nota">Demo sin backend: los turnos se guardan en este navegador (localStorage).</p>
+    </div>
+
+    <div id="toast"></div>
+
+    <dialog id="modal">
+      <div class="modal-body">
+        <h3>Confirmar reserva</h3>
+        <p id="modalTexto"></p>
+        <div class="modal-actions">
+          <button id="modalCancelar">Cancelar</button>
+          <button class="ok" id="modalOk">Confirmar</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      const CANCHAS = [
+        { id: 'c1', nombre: 'Cancha 1', tipo: 'Fútbol 5', jugadores: 5, precio: 25000 },
+        { id: 'c2', nombre: 'Cancha 2', tipo: 'Fútbol 6', jugadores: 6, precio: 30000 },
+        { id: 'c3', nombre: 'Cancha 3', tipo: 'Fútbol 7', jugadores: 7, precio: 35000 },
+      ];
+      const HORAS = ['15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+      const CLAVE = 'demo-reservas';
+
+      let seleccion = { cancha: CANCHAS[0].id, fecha: null, hora: null };
+
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fechas = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(hoy);
+        d.setDate(d.getDate() + i);
+        return d;
+      });
+      seleccion.fecha = fechaISO(fechas[0]);
+
+      function fechaISO(d) {
+        return d.toISOString().slice(0, 10);
+      }
+
+      function hash(texto) {
+        let h = 0;
+        for (let i = 0; i < texto.length; i++) h = (h * 31 + texto.charCodeAt(i)) >>> 0;
+        return h;
+      }
+
+      // Ocupados de ejemplo: deterministas, para que no cambien en cada render.
+      function estaOcupada(canchaId, fecha, hora) {
+        return hash(canchaId + fecha + hora) % 4 === 0;
+      }
+
+      function misReservas() {
+        try {
+          return JSON.parse(localStorage.getItem(CLAVE)) || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function guardar(reservas) {
+        localStorage.setItem(CLAVE, JSON.stringify(reservas));
+      }
+
+      function esMia(canchaId, fecha, hora) {
+        return misReservas().some(
+          (r) => r.cancha === canchaId && r.fecha === fecha && r.hora === hora
+        );
+      }
+
+      function formatearFecha(iso) {
+        const d = new Date(iso + 'T00:00:00');
+        const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+        return dias[d.getDay()] + ' ' + d.getDate();
+      }
+
+      function formatearPrecio(valor) {
+        return '$' + valor.toLocaleString('es-AR');
+      }
+
+      function nombreCancha(id) {
+        const c = CANCHAS.find((x) => x.id === id);
+        return c ? c.nombre + ' · ' + c.tipo : id;
+      }
+
+      function render() {
+        renderCanchas();
+        renderFechas();
+        renderHorarios();
+        renderMis();
+        const boton = document.getElementById('confirmar');
+        boton.disabled = !seleccion.hora;
+      }
+
+      function renderCanchas() {
+        const cont = document.getElementById('canchas');
+        cont.innerHTML = '';
+        CANCHAS.forEach((c) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'chip' + (seleccion.cancha === c.id ? ' active' : '');
+          b.innerHTML = c.nombre + '<small>' + c.tipo + ' · ' + formatearPrecio(c.precio) + '</small>';
+          b.onclick = () => {
+            seleccion.cancha = c.id;
+            seleccion.hora = null;
+            render();
+          };
+          cont.appendChild(b);
+        });
+      }
+
+      function renderFechas() {
+        const cont = document.getElementById('fechas');
+        cont.innerHTML = '';
+        fechas.forEach((d) => {
+          const iso = fechaISO(d);
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'chip' + (seleccion.fecha === iso ? ' active' : '');
+          b.textContent = formatearFecha(iso);
+          b.onclick = () => {
+            seleccion.fecha = iso;
+            seleccion.hora = null;
+            render();
+          };
+          cont.appendChild(b);
+        });
+      }
+
+      function renderHorarios() {
+        const cont = document.getElementById('horarios');
+        cont.innerHTML = '';
+        const ahora = new Date();
+        HORAS.forEach((hora) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          const mia = esMia(seleccion.cancha, seleccion.fecha, hora);
+          const ocupada = !mia && estaOcupada(seleccion.cancha, seleccion.fecha, hora);
+          const pasada =
+            seleccion.fecha === fechaISO(ahora) &&
+            parseInt(hora.slice(0, 2), 10) <= ahora.getHours();
+
+          let clase = 'slot';
+          if (mia) clase += ' mio';
+          else if (ocupada || pasada) clase += ' ocupado';
+          else if (seleccion.hora === hora) clase += ' seleccionado';
+
+          b.className = clase;
+          b.textContent = hora;
+          b.disabled = pasada && !mia;
+          b.onclick = () => {
+            if (mia || ocupada || pasada) return;
+            seleccion.hora = hora;
+            render();
+          };
+          cont.appendChild(b);
+        });
+      }
+
+      function renderMis() {
+        const cont = document.getElementById('mis');
+        const reservas = misReservas().sort((a, b) =>
+          (a.fecha + a.hora).localeCompare(b.fecha + b.hora)
+        );
+        cont.innerHTML = '';
+        if (reservas.length === 0) {
+          cont.innerHTML = '<p class="vacio">Todavía no tienes reservas.</p>';
+          return;
+        }
+        reservas.forEach((r, i) => {
+          const div = document.createElement('div');
+          div.className = 'reserva';
+          div.innerHTML =
+            '<div class="datos"><b>' + nombreCancha(r.cancha) + '</b>' +
+            formatearFecha(r.fecha) + ' · ' + r.hora + '</div>';
+          const boton = document.createElement('button');
+          boton.className = 'cancelar';
+          boton.textContent = 'Cancelar';
+          boton.onclick = () => {
+            guardar(misReservas().filter((_, j) => j !== i));
+            render();
+            toast('Reserva cancelada');
+          };
+          div.appendChild(boton);
+          cont.appendChild(div);
+        });
+      }
+
+      const modal = document.getElementById('modal');
+      document.getElementById('confirmar').onclick = () => {
+        if (!seleccion.hora) return;
+        document.getElementById('modalTexto').textContent =
+          nombreCancha(seleccion.cancha) +
+          ' · ' + formatearFecha(seleccion.fecha) +
+          ' · ' + seleccion.hora;
+        modal.showModal();
+      };
+      document.getElementById('modalCancelar').onclick = () => modal.close();
+      document.getElementById('modalOk').onclick = () => {
+        const reservas = misReservas();
+        reservas.push({ cancha: seleccion.cancha, fecha: seleccion.fecha, hora: seleccion.hora });
+        guardar(reservas);
+        seleccion.hora = null;
+        modal.close();
+        render();
+        toast('¡Turno reservado!');
+      };
+
+      let toastTimer;
+      function toast(texto) {
+        const t = document.getElementById('toast');
+        t.textContent = texto;
+        t.classList.add('visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('visible'), 2200);
+      }
+
+      render();
+    </script>
+  </body>
+</html>

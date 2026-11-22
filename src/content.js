@@ -14,6 +14,16 @@ export const profile = {
 
 export const projects = [
   {
+    id: 'atilio-bar',
+    nombre: 'Bar Atilio',
+    descripcion:
+      'Sistema web para un bar: mesas, pedidos, ventas, cobro y caja, con apertura de turno, control de stock y reportes.',
+    tecnologias: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap'],
+    imagen_url: '/atilio-bar.jpg',
+    enlace_github: 'https://github.com/HernanDiaz94/atilio-bar',
+    enlace_demo: '/demo-atilio.html',
+  },
+  {
     id: 'confecat-rrhh',
     nombre: 'Confecat S.A. — Gestión de Personal',
     descripcion:

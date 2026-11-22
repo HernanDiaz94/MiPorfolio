@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo · Bar Atilio</title>
+    <style>
+      :root {
+        --amarillo-claro: #fff4b8;
+        --amarillo-suave: #fffadc;
+        --verde-claro: #bfe3b4;
+        --verde-medio: #8cc98a;
+        --texto: #2f4f2f;
+        --texto-suave: #557055;
+        --verde-oscuro: #2f4f2f;
+        --borde: #cfe3c6;
+        --sombra: rgba(47, 79, 47, .12);
+        --libre-fondo: #e4f5df;
+        --ocupada-fondo: #ffe9a8;
+        --porcobrar-fondo: #ffc7c7;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--amarillo-suave); color: var(--texto); min-height: 100vh;
+      }
+      .hidden { display: none !important; }
+
+      .topbar {
+        background: var(--verde-claro); border-bottom: 1px solid var(--borde);
+        padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+        position: sticky; top: 0; z-index: 5;
+      }
+      .topbar img { width: 34px; height: 34px; }
+      .topbar .titulo { font-weight: 800; font-size: 17px; }
+      .topbar .subtitulo { font-size: 11px; color: var(--texto-suave); }
+      .topbar .espacio { flex: 1; }
+      .badge {
+        background: var(--amarillo-claro); border: 1px solid #e7d68a; color: #6b5a00;
+        font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+      }
+      .btn {
+        background: var(--verde-claro); color: var(--texto); border: 1px solid var(--verde-medio);
+        border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700; cursor: pointer;
+      }
+      .btn:disabled { opacity: .5; cursor: not-allowed; }
+      .btn.principal { background: var(--verde-oscuro); color: #fff; border-color: var(--verde-oscuro); }
+      .btn.chico { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
+
+      main { max-width: 1080px; margin: 0 auto; padding: 16px; }
+
+      .resumen { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+      .resumen .caja-info {
+        background: #fff; border: 1px solid var(--borde); border-radius: 12px;
+        padding: 10px 14px; font-size: 12px; color: var(--texto-suave);
+      }
+      .resumen .caja-info b { display: block; color: var(--texto); font-size: 15px; }
+
+      .zona { margin-bottom: 20px; }
+      .zona h2 { font-size: 14px; margin-bottom: 8px; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .5px; }
+      .grid-mesas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+      .mesa {
+        border-radius: 12px; padding: 12px; border: 1px solid var(--borde);
+        background: var(--libre-fondo); cursor: pointer; min-height: 86px;
+        display: flex; flex-direction: column; gap: 4px;
+      }
+      .mesa .numero { font-weight: 800; font-size: 15px; }
+      .mesa .personas { font-size: 11px; color: var(--texto-suave); }
+      .mesa .total { margin-top: auto; font-weight: 700; font-size: 13px; }
+      .mesa.ocupada { background: var(--ocupada-fondo); }
+      .mesa.por_cobrar { background: var(--porcobrar-fondo); }
+      .mesa .estado { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+
+      .ventas { background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 12px; }
+      .ventas table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      .ventas th { text-align: left; color: var(--texto-suave); font-size: 11px; text-transform: uppercase; padding: 6px 8px; border-bottom: 1px solid var(--borde); }
+      .ventas td { padding: 7px 8px; border-bottom: 1px solid #f0f5ee; }
+      .ventas .vacio { color: var(--texto-suave); text-align: center; padding: 16px; }
+
+      dialog { border: 0; border-radius: 16px; padding: 0; max-width: 860px; width: calc(100% - 32px); max-height: 90vh; }
+      dialog::backdrop { background: rgba(47, 79, 47, .45); }
+      .dialog-body { padding: 18px; overflow-y: auto; }
+      .dialog-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+      .dialog-head h2 { font-size: 17px; }
+      .dialog-head .cerrar { margin-left: auto; }
+
+      .carta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .producto {
+        background: #fff; border: 1px solid var(--borde); border-radius: 10px;
+        padding: 10px; font-size: 12px; cursor: pointer; text-align: left;
+      }
+      .producto b { display: block; font-size: 13px; }
+      .producto .precio { color: var(--texto-suave); }
+      .producto:hover { border-color: var(--verde-medio); background: var(--amarillo-claro); }
+
+      .pedido { margin-top: 14px; border-top: 1px solid var(--borde); padding-top: 10px; }
+      .pedido .fila { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 5px 0; }
+      .pedido .fila .nombre { flex: 1; }
+      .pedido .fila .cant { display: flex; align-items: center; gap: 6px; }
+      .pedido .fila .cant button {
+        width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--borde);
+        background: #fff; cursor: pointer; font-weight: 700;
+      }
+      .pedido .total { display: flex; justify-content: space-between; font-weight: 800; margin-top: 10px; font-size: 15px; }
+      .pedido .acciones { display: flex; gap: 8px; margin-top: 12px; }
+      .pedido .acciones button { flex: 1; }
+      .medios { display: flex; gap: 8px; margin-top: 10px; }
+      .medios label { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+
+      .caja-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+      .caja-grid .dato { background: #fff; border: 1px solid var(--borde); border-radius: 10px; padding: 12px; }
+      .caja-grid .dato span { font-size: 11px; color: var(--texto-suave); text-transform: uppercase; }
+      .caja-grid .dato b { display: block; font-size: 18px; margin-top: 4px; }
+
+      #toast {
+        position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+        background: var(--verde-oscuro); color: #fff; font-size: 13px; font-weight: 600;
+        padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
+        transition: opacity .2s, transform .2s;
+      }
+      #toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <img src="/atilio-logo.svg" alt="Atilio" />
+      <div>
+        <div class="titulo">Bar Atilio</div>
+        <div class="subtitulo">Mesas · Pedidos · Ventas · Caja</div>
+      </div>
+      <div class="espacio"></div>
+      <span class="badge">Modo demo</span>
+      <button class="btn" id="btnCaja">Caja</button>
+    </header>
+
+    <main>
+      <section class="resumen">
+        <div class="caja-info">Estado de caja<b id="cajaEstado">Cerrada</b></div>
+        <div class="caja-info">Ventas del día<b id="cajaVentas">$0</b></div>
+        <div class="caja-info">Mesas ocupadas<b id="mesasOcupadas">0</b></div>
+      </section>
+
+      <section class="zona">
+        <h2>Salón</h2>
+        <div class="grid-mesas" id="gridSalon"></div>
+      </section>
+      <section class="zona">
+        <h2>Barra y pool</h2>
+        <div class="grid-mesas" id="gridOtros"></div>
+      </section>
+
+      <section class="ventas">
+        <table>
+          <thead>
+            <tr><th>Hora</th><th>Mesa</th><th>Ítems</th><th>Medio</th><th>Total</th></tr>
+          </thead>
+          <tbody id="tablaVentas"></tbody>
+        </table>
+        <div class="vacio" id="ventasVacio">Todavía no hay ventas.</div>
+      </section>
+
+      <p style="text-align:center;font-size:11px;color:var(--texto-suave);margin-top:14px">
+        Demo sin backend: los datos se guardan en este navegador (localStorage).
+      </p>
+    </main>
+
+    <!-- Mesa -->
+    <dialog id="mesaModal">
+      <div class="dialog-body">
+        <div class="dialog-head">
+          <h2 id="mesaTitulo">Mesa</h2>
+          <button class="btn chico cerrar" id="mesaCerrar">Volver</button>
+        </div>
+        <p style="font-size:12px;color:var(--texto-suave);margin-bottom:10px" id="mesaAyuda">
+          Tocá un producto para agregarlo al pedido.
+        </p>
+        <div class="carta" id="carta"></div>
+        <div class="pedido">
+          <div id="pedidoFilas"></div>
+          <div class="total"><span>Total</span><span id="pedidoTotal">$0</span></div>
+          <div class="medios">
+            <label><input type="radio" name="medio" value="efectivo" checked /> Efectivo</label>
+            <label><input type="radio" name="medio" value="tarjeta" /> Tarjeta</label>
+          </div>
+          <div class="acciones">
+            <button class="btn" id="mesaVaciar">Vaciar pedido</button>
+            <button class="btn principal" id="mesaCobrar">Cobrar</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Caja -->
+    <dialog id="cajaModal">
+      <div class="dialog-body">
+        <div class="dialog-head">
+          <h2>Caja del día</h2>
+          <button class="btn chico cerrar" id="cajaCerrar">Cerrar</button>
+        </div>
+        <div class="caja-grid">
+          <div class="dato"><span>Estado</span><b id="datoEstado">Cerrada</b></div>
+          <div class="dato"><span>Monto inicial</span><b id="datoInicial">$0</b></div>
+          <div class="dato"><span>Ventas en efectivo</span><b id="datoEfectivo">$0</b></div>
+          <div class="dato"><span>En cajón</span><b id="datoCajon">$0</b></div>
+        </div>
+        <div class="campo hidden" id="campoApertura">
+          <label for="montoInicial">Monto en el cajón al abrir</label>
+          <input id="montoInicial" type="number" min="0" step="50" value="10000" />
+        </div>
+        <div class="acciones" style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn principal" id="btnAbrir">Abrir caja</button>
+          <button class="btn" id="btnCerrarCaja">Cerrar turno</button>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="toast"></div>
+
+    <script>
+      const CLAVE = 'demo-atilio';
+      const MESAS = [
+        { id: '1', nombre: '1', personas: 4, nota: 'Esquina del salón', zona: 'salon' },
+        { id: '2', nombre: '2', personas: 4, nota: '', zona: 'salon' },
+        { id: '3', nombre: '3', personas: 6, nota: '', zona: 'salon' },
+        { id: '4', nombre: '4', personas: 4, nota: '', zona: 'salon' },
+        { id: '5', nombre: '5', personas: 8, nota: 'Del fondo', zona: 'salon' },
+        { id: '6', nombre: '6', personas: 4, nota: '', zona: 'salon' },
+        { id: '7', nombre: '7', personas: 4, nota: '', zona: 'salon' },
+        { id: '8', nombre: '8', personas: 6, nota: '', zona: 'salon' },
+        { id: 'B1', nombre: 'B1', personas: 2, nota: 'Barra alta', zona: 'barra' },
+        { id: 'B2', nombre: 'B2', personas: 2, nota: '', zona: 'barra' },
+        { id: 'P1', nombre: 'P1', personas: 4, nota: 'Mesa de pool 1', zona: 'pool' },
+        { id: 'P2', nombre: 'P2', personas: 4, nota: 'Mesa de pool 2', zona: 'pool' },
+      ];
+      const PRODUCTOS = [
+        { id: 'fernet', nombre: 'Vaso de fernet', precio: 2200 },
+        { id: 'gancia', nombre: 'Vaso de gancia', precio: 2200 },
+        { id: 'vino', nombre: 'Vaso de vino', precio: 2500 },
+        { id: 'empCarne', nombre: 'Empanada de carne', precio: 900 },
+        { id: 'empPollo', nombre: 'Empanada de pollo', precio: 900 },
+        { id: 'pool', nombre: 'Mesa de Pool', precio: 2500 },
+      ];
+
+      let caja = { abierta: false, inicial: 0, efectivo: 0, ventas: [] };
+      let mesas = {};
+      let mesaActual = null;
+
+      function cargar() {
+        try {
+          const datos = JSON.parse(localStorage.getItem(CLAVE));
+          if (datos && datos.caja) { caja = datos.caja; mesas = datos.mesas || {}; return; }
+        } catch {}
+        MESAS.forEach((m) => { mesas[m.id] = { estado: 'libre', pedido: [] }; });
+      }
+      function guardar() {
+        localStorage.setItem(CLAVE, JSON.stringify({ caja, mesas }));
+      }
+
+      const $ = (id) => document.getElementById(id);
+      const pesos = (n) => '$' + n.toLocaleString('es-AR');
+
+      function toast(texto) {
+        const t = $('toast');
+        t.textContent = texto;
+        t.classList.add('visible');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('visible'), 2200);
+      }
+
+      function totalMesa(id) {
+        return (mesas[id].pedido || []).reduce((s, p) => {
+          const prod = PRODUCTOS.find((x) => x.id === p.id);
+          return s + (prod ? prod.precio * p.cantidad : 0);
+        }, 0);
+      }
+
+      function render() {
+        renderResumen();
+        renderMesas('salon', $('gridSalon'));
+        renderMesas('barra', $('gridOtros'), true);
+        renderVentas();
+        guardar();
+      }
+
+      function renderResumen() {
+        $('cajaEstado').textContent = caja.abierta ? 'Abierta' : 'Cerrada';
+        $('cajaVentas').textContent = pesos(caja.ventas.reduce((s, v) => s + v.total, 0));
+        const ocupadas = Object.values(mesas).filter((m) => m.estado === 'ocupada').length;
+        $('mesasOcupadas').textContent = ocupadas;
+      }
+
+      function renderMesas(zona, cont, incluyePool) {
+        cont.innerHTML = '';
+        MESAS.filter((m) => m.zona === zona || (incluyePool && m.zona === 'pool')).forEach((m) => {
+          const estado = mesas[m.id].estado;
+          const div = document.createElement('div');
+          div.className = 'mesa' + (estado === 'ocupada' ? ' ocupada' : estado === 'por_cobrar' ? ' por_cobrar' : '');
+          div.innerHTML =
+            '<div class="numero">' + m.nombre + '</div>' +
+            '<div class="personas">' + (m.nota || m.personas + ' pers.') + '</div>' +
+            '<div class="estado">' + (estado === 'libre' ? 'Libre' : estado === 'ocupada' ? 'Ocupada' : 'Por cobrar') + '</div>' +
+            '<div class="total">' + (estado === 'libre' ? '' : pesos(totalMesa(m.id))) + '</div>';
+          div.onclick = () => abrirMesa(m.id);
+          cont.appendChild(div);
+        });
+      }
+
+      function renderVentas() {
+        const cuerpo = $('tablaVentas');
+        cuerpo.innerHTML = '';
+        $('ventasVacio').classList.toggle('hidden', caja.ventas.length > 0);
+        [...caja.ventas].reverse().forEach((v) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + v.hora + '</td><td>' + v.mesa + '</td>' +
+            '<td>' + v.items + '</td><td>' + v.medio + '</td><td>' + pesos(v.total) + '</td>';
+          cuerpo.appendChild(tr);
+        });
+      }
+
+      function abrirMesa(id) {
+        mesaActual = id;
+        const m = MESAS.find((x) => x.id === id);
+        $('mesaTitulo').textContent = 'Mesa ' + m.nombre + (m.nota ? ' · ' + m.nota : '');
+        $('mesaAyuda').textContent = mesas[id].estado === 'libre'
+          ? 'Mesa libre: tocá un producto para abrir el pedido.'
+          : 'Pedido en curso. Tocá un producto para sumar.';
+        renderCarta();
+        renderPedido();
+        mesaModal.showModal();
+      }
+
+      function renderCarta() {
+        const cont = $('carta');
+        cont.innerHTML = '';
+        PRODUCTOS.forEach((p) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'producto';
+          b.innerHTML = '<b>' + p.nombre + '</b><span class="precio">' + pesos(p.precio) + '</span>';
+          b.onclick = () => {
+            if (mesas[mesaActual].estado === 'libre') mesas[mesaActual].estado = 'ocupada';
+            const item = mesas[mesaActual].pedido.find((x) => x.id === p.id);
+            if (item) item.cantidad += 1;
+            else mesas[mesaActual].pedido.push({ id: p.id, cantidad: 1 });
+            renderPedido();
+            render();
+          };
+          cont.appendChild(b);
+        });
+      }
+
+      function renderPedido() {
+        const pedido = mesas[mesaActual].pedido || [];
+        const cont = $('pedidoFilas');
+        cont.innerHTML = '';
+        if (pedido.length === 0) {
+          cont.innerHTML = '<p style="font-size:12px;color:var(--texto-suave)">Pedido vacío.</p>';
+        }
+        pedido.forEach((item) => {
+          const prod = PRODUCTOS.find((x) => x.id === item.id);
+          const fila = document.createElement('div');
+          fila.className = 'fila';
+          fila.innerHTML =
+            '<span class="nombre">' + prod.nombre + '</span>' +
+            '<span class="cant"><button data-a="menos">−</button><span>' + item.cantidad + '</span><button data-a="mas">+</button></span>' +
+            '<span>' + pesos(prod.precio * item.cantidad) + '</span>';
+          fila.querySelector('[data-a=menos]').onclick = () => {
+            item.cantidad -= 1;
+            if (item.cantidad <= 0) mesas[mesaActual].pedido = mesas[mesaActual].pedido.filter((x) => x !== item);
+            renderPedido();
+            render();
+          };
+          fila.querySelector('[data-a=mas]').onclick = () => {
+            item.cantidad += 1;
+            renderPedido();
+            render();
+          };
+          cont.appendChild(fila);
+        });
+        $('pedidoTotal').textContent = pesos(totalMesa(mesaActual));
+      }
+
+      $('mesaCerrar').onclick = () => mesaModal.close();
+      $('mesaVaciar').onclick = () => {
+        mesas[mesaActual].pedido = [];
+        mesas[mesaActual].estado = 'libre';
+        renderPedido();
+        render();
+      };
+      $('mesaCobrar').onclick = () => {
+        const total = totalMesa(mesaActual);
+        if (total === 0) return toast('El pedido está vacío.');
+        if (!caja.abierta) return toast('Abrí la caja antes de cobrar.');
+        const medio = document.querySelector('input[name=medio]:checked').value;
+        const m = MESAS.find((x) => x.id === mesaActual);
+        const items = mesas[mesaActual].pedido.reduce((s, p) => s + p.cantidad, 0);
+        const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        caja.ventas.push({ hora, mesa: m.nombre, items, medio, total });
+        if (medio === 'efectivo') caja.efectivo += total;
+        mesas[mesaActual].pedido = [];
+        mesas[mesaActual].estado = 'libre';
+        mesaModal.close();
+        render();
+        toast('Cobrado ' + pesos(total) + ' en ' + medio);
+      };
+
+      $('btnCaja').onclick = () => {
+        $('datoEstado').textContent = caja.abierta ? 'Abierta' : 'Cerrada';
+        $('datoInicial').textContent = pesos(caja.inicial);
+        $('datoEfectivo').textContent = pesos(caja.efectivo);
+        $('datoCajon').textContent = pesos(caja.abierta ? caja.inicial + caja.efectivo : 0);
+        $('campoApertura').classList.toggle('hidden', caja.abierta);
+        $('btnAbrir').classList.toggle('hidden', caja.abierta);
+        $('btnCerrarCaja').classList.toggle('hidden', !caja.abierta);
+        cajaModal.showModal();
+      };
+      $('cajaCerrar').onclick = () => cajaModal.close();
+      $('btnAbrir').onclick = () => {
+        caja.abierta = true;
+        caja.inicial = Number($('montoInicial').value) || 0;
+        caja.efectivo = 0;
+        caja.ventas = [];
+        cajaModal.close();
+        render();
+        toast('Caja abierta con ' + pesos(caja.inicial));
+      };
+      $('btnCerrarCaja').onclick = () => {
+        caja.abierta = false;
+        cajaModal.close();
+        render();
+        toast('Turno cerrado');
+      };
+
+      cargar();
+      render();
+    </script>
+  </body>
+</html>

@@ -19,7 +19,7 @@ function App() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-up')
+          entry.target.classList.add('in-view')
           observer.unobserve(entry.target)
         }
       })
@@ -33,10 +33,10 @@ function App() {
 
   return (
     <ProfileProvider>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-blue-600 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-blue-600 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow dark:focus:bg-gray-900 dark:focus:text-blue-400"
         >
           Saltar al contenido
         </a>
@@ -54,7 +54,7 @@ function App() {
           </div>
         </main>
 
-        <footer className="bg-gray-800 text-white py-8">
+        <footer className="border-t border-gray-200 bg-gray-900 py-8 text-white dark:border-gray-800 dark:bg-black">
           <div className="max-w-6xl mx-auto px-4 text-center">
             <p className="text-gray-400 text-sm">
               © {currentYear} {profile.full_name} · Catamarca, Argentina

@@ -7,8 +7,12 @@
     scroll-behavior: smooth;
   }
 
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-white text-gray-800 antialiased;
+    @apply bg-white text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-100;
   }
 
   /* Compensa el header sticky al navegar con anchors */
@@ -17,7 +21,7 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-blue-600 ring-offset-2;
+    @apply outline-none ring-2 ring-blue-600 ring-offset-2 dark:ring-offset-gray-950;
   }
 }
 
@@ -32,8 +36,42 @@
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease both;
+}
+
+/* Las tarjetas entran escalonadas cuando la sección se vuelve visible. */
+.in-view .stagger > * {
+  animation: fadeInUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.in-view .stagger > *:nth-child(1) { animation-delay: 0s; }
+.in-view .stagger > *:nth-child(2) { animation-delay: 0.07s; }
+.in-view .stagger > *:nth-child(3) { animation-delay: 0.14s; }
+.in-view .stagger > *:nth-child(4) { animation-delay: 0.21s; }
+.in-view .stagger > *:nth-child(5) { animation-delay: 0.28s; }
+.in-view .stagger > *:nth-child(6) { animation-delay: 0.35s; }
+.in-view .stagger > *:nth-child(7) { animation-delay: 0.42s; }
+.in-view .stagger > *:nth-child(8) { animation-delay: 0.49s; }
+.in-view .stagger > *:nth-child(9) { animation-delay: 0.56s; }
+
+/* Las barras de nivel crecen cuando la sección entra en pantalla. */
+.barra {
+  width: 0;
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.in-view .barra {
+  width: var(--w, 50%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -41,7 +79,13 @@
     scroll-behavior: auto;
   }
 
-  .animate-fade-in-up {
+  .animate-fade-in,
+  .in-view .stagger > * {
     animation: none;
+  }
+
+  .barra {
+    width: var(--w, 50%);
+    transition: none;
   }
 }

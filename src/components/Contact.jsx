@@ -76,21 +76,21 @@ const Contact = () => {
   const items = contactItems(profile)
 
   return (
-    <section id="contacto" className="py-20 bg-white">
+    <section id="contacto" className="py-20 bg-white dark:bg-gray-950">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3 text-gray-800">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3 text-gray-800 dark:text-white">
           Contacto
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto dark:text-gray-400">
           ¿Tenés un proyecto en mente? Escribime y te respondo a la brevedad.
         </p>
 
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-semibold mb-4 text-gray-800">
+            <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
               Hablemos
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 dark:text-gray-300">
               Estoy disponible para trabajar en proyectos freelance o en
               relación de dependencia.
             </p>
@@ -100,7 +100,7 @@ const Contact = () => {
                 .filter((item) => item.value)
                 .map((item) => (
                   <li key={item.key} className="flex items-center gap-3">
-                    <span className="text-blue-600" aria-hidden="true">
+                    <span className="text-blue-600 dark:text-blue-400" aria-hidden="true">
                       <svg
                         width="20"
                         height="20"
@@ -120,12 +120,12 @@ const Contact = () => {
                         {...(item.external
                           ? { target: '_blank', rel: 'noopener noreferrer' }
                           : {})}
-                        className="text-gray-700 hover:text-blue-600 transition"
+                        className="text-gray-700 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <span className="text-gray-700">{item.value}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{item.value}</span>
                     )}
                   </li>
                 ))}
@@ -145,7 +145,7 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300"
                 >
                   Nombre
                 </label>
@@ -157,14 +157,14 @@ const Contact = () => {
                   onChange={handleChange}
                   autoComplete="name"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300"
                 >
                   Email
                 </label>
@@ -176,14 +176,14 @@ const Contact = () => {
                   onChange={handleChange}
                   autoComplete="email"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300"
                 >
                   Mensaje
                 </label>
@@ -194,7 +194,7 @@ const Contact = () => {
                   onChange={handleChange}
                   rows="4"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
                 />
               </div>
 
@@ -217,12 +217,12 @@ const Contact = () => {
 
               <p aria-live="polite" className="text-sm min-h-5">
                 {status === 'success' && (
-                  <span className="text-green-700">
+                  <span className="text-green-700 dark:text-green-400">
                     ¡Gracias por tu mensaje! Te respondo pronto.
                   </span>
                 )}
                 {status === 'error' && (
-                  <span className="text-red-700">
+                  <span className="text-red-700 dark:text-red-400">
                     No se pudo enviar. Probá de nuevo o escribime por email.
                   </span>
                 )}

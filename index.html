@@ -9,9 +9,17 @@
       content="Portfolio de Hernan Diaz, programador y técnico en informática de Catamarca, Argentina. Proyectos, habilidades y contacto."
     />
     <meta name="author" content="Hernan Diaz" />
-    <meta name="theme-color" content="#2563eb" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://miporfoliohd.netlify.app/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Hernan Diaz" />
@@ -50,6 +58,18 @@
       name="twitter:image"
       content="https://miporfoliohd.netlify.app/og-image.jpg"
     />
+    <script>
+      // Aplica el tema antes del primer paint para evitar el parpadeo.
+      (function () {
+        try {
+          var tema = localStorage.getItem('theme');
+          var oscuro =
+            tema === 'dark' ||
+            (!tema && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (oscuro) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

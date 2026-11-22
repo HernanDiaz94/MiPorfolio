@@ -5,11 +5,8 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Fallback de SPA: cualquier ruta desconocida devuelve index.html
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Sin rewrites: el sitio es una SPA de una sola página servida desde la raíz;
+# las rutas desconocidas responden con 404.html (Netlify lo toma de dist/).
 
 # Assets con hash: cache agresivo
 [[headers]]

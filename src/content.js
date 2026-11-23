@@ -100,12 +100,12 @@ export const skills = [
     id: 'skill-4',
     habilidad: 'Manejo de herramientas de IA',
     nivel: 'Intermedio',
-    detalle: ['Claude', 'OpenCode', 'Ollama', 'Hermes', 'Gemini', 'GPT'],
+    detalle: ['Claude', 'OpenCode', 'Ollama', 'Hermes', 'Gemini', 'GPT', 'Prompting'],
   },
   {
     id: 'skill-5',
     habilidad: 'Ofimática',
     nivel: 'Intermedio',
-    detalle: ['Paquete Office', 'Dactilografía'],
+    detalle: ['Word', 'Excel', 'PowerPoint', 'Macros', 'OneDrive', 'Outlook', 'Forms', 'Teams', 'Slack', 'Dactilografía'],
   },
 ]

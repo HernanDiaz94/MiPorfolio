@@ -61,7 +61,7 @@ export const projects = [
     tecnologias: ['HTML', 'CSS', 'JavaScript', 'PHP'],
     imagen_url: '/open-work-nature.jpg',
     enlace_github: 'https://github.com/HernanDiaz94/OpenWorkNature',
-    enlace_demo: 'https://hernandiaz94.github.io/OpenWorkNature/',
+    enlace_demo: '/demo-openwork.html',
   },
   {
     id: 'gestion-insumos',

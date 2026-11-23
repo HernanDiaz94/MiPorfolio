@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo · Open Work Nature</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --azul: #2f5596;
+        --azul-osc: #22406f;
+        --fondo: #f9f9ff;
+        --texto: #212529;
+        --muted: #6c757d;
+        --acento: #007bff;
+        --borde: #e4e7f5;
+        --card: #ffffff;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--fondo);
+        color: var(--texto);
+        line-height: 1.6;
+      }
+      .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--borde);
+      }
+      .barra {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 0;
+      }
+      .marca {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--azul);
+        text-decoration: none;
+      }
+      .marca span { color: var(--acento); }
+      nav { margin-left: auto; display: flex; gap: 22px; }
+      nav a {
+        color: var(--texto);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+      nav a:hover { color: var(--azul); }
+      .badge {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, var(--azul) 0%, var(--azul-osc) 100%);
+        color: #fff;
+        padding: 74px 0 84px;
+        text-align: center;
+      }
+      .hero .eyebrow {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+        font-weight: 700;
+        max-width: 760px;
+        margin: 0 auto 18px;
+        line-height: 1.25;
+      }
+      .hero p {
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 620px;
+        margin: 0 auto 30px;
+      }
+      .boton {
+        display: inline-block;
+        background: #fff;
+        color: var(--azul);
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 12px 26px;
+        border-radius: 10px;
+        text-decoration: none;
+      }
+      .boton.fantasma {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        margin-left: 10px;
+      }
+
+      section { padding: 60px 0; }
+      .titulo-seccion {
+        text-align: center;
+        font-size: 1.6rem;
+        color: var(--azul-osc);
+        margin-bottom: 8px;
+      }
+      .subtitulo {
+        text-align: center;
+        color: var(--muted);
+        max-width: 620px;
+        margin: 0 auto 36px;
+        font-size: 0.92rem;
+      }
+
+      .servicios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .servicio {
+        background: var(--card);
+        border: 1px solid var(--borde);
+        border-radius: 12px;
+        padding: 22px;
+      }
+      .servicio .icono {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--fondo);
+        border: 1px solid var(--borde);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+        color: var(--azul);
+      }
+      .servicio h3 { font-size: 0.98rem; margin-bottom: 6px; }
+      .servicio p { font-size: 0.82rem; color: var(--muted); }
+
+      .plan {
+        background: #fff;
+        border-top: 1px solid var(--borde);
+        border-bottom: 1px solid var(--borde);
+      }
+      .plan .grilla {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+        align-items: center;
+      }
+      .plan img {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid var(--borde);
+        display: block;
+      }
+      .plan h2 { color: var(--azul-osc); font-size: 1.5rem; margin-bottom: 12px; }
+      .plan p { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+
+      .clientes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px 34px;
+        padding-top: 10px;
+      }
+      .cliente {
+        font-weight: 700;
+        color: #aab2d0;
+        font-size: 1rem;
+        letter-spacing: 0.4px;
+      }
+
+      .contacto { background: #fff; border-top: 1px solid var(--borde); }
+      .formulario {
+        max-width: 560px;
+        margin: 0 auto;
+        display: grid;
+        gap: 12px;
+      }
+      .formulario input,
+      .formulario textarea {
+        width: 100%;
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 11px 14px;
+        font-family: inherit;
+        font-size: 0.88rem;
+        background: var(--fondo);
+        color: var(--texto);
+      }
+      .formulario button {
+        background: var(--azul);
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+      }
+      .datos {
+        max-width: 560px;
+        margin: 22px auto 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      footer {
+        background: var(--azul-osc);
+        color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px;
+        font-size: 0.78rem;
+      }
+      .aviso {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.72rem;
+        padding: 12px;
+      }
+
+      @media (max-width: 720px) {
+        .servicios { grid-template-columns: 1fr; }
+        .plan .grilla { grid-template-columns: 1fr; }
+        nav { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="contenedor barra">
+        <a class="marca" href="#inicio">OWN <span>·</span> Open Work Nature</a>
+        <nav>
+          <a href="#inicio">Inicio</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#plan">Nosotros</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+        <span class="badge">Modo demo</span>
+      </div>
+    </header>
+
+    <section class="hero" id="inicio">
+      <div class="contenedor">
+        <span class="eyebrow">Laboratorio · Medio ambiente</span>
+        <h1>Nos adaptamos a las necesidades de nuestros clientes en cualquiera de las etapas del proceso productivo.</h1>
+        <p>
+          Generamos propuestas y soluciones competentes a nuestros clientes,
+          dentro del marco del cuidado del medio ambiente y del trabajo
+          colaborativo.
+        </p>
+        <a class="boton" href="#servicios">Ver servicios</a>
+        <a class="boton fantasma" href="#contacto">Contactate</a>
+      </div>
+    </section>
+
+    <section id="servicios">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Nuestros Servicios</h2>
+        <p class="subtitulo">
+          Análisis químicos, procesos, capacitación y gestión ambiental para la
+          industria.
+        </p>
+        <div class="servicios">
+          <div class="servicio">
+            <div class="icono">⚗</div>
+            <h3>Análisis de Metales</h3>
+            <p>
+              Análisis químicos y ensayos de metales y aleaciones, con
+              optimización de técnicas analíticas para laboratorio.
+            </p>
+          </div>
+          <div class="servicio">
+            <div class="icono">🧪</div>
+            <h3>Procesos Químicos</h3>
+            <p>
+              Diagramación, puesta en marcha y operación de laboratorios
+              químicos, con provisión de mano de obra especializada.
+            </p>
+          </div>
+          <div class="servicio">
+            <div class="icono">🎓</div>
+            <h3>Capacitación y Entrenamiento</h3>
+            <p>
+              Capacitación en técnicas y gestión de laboratorios y plantas de
+              tratamiento de efluentes, con cursos adaptados al cliente.
+            </p>
+          </div>
+          <div class="servicio">
+            <div class="icono">🧭</div>
+            <h3>Consultoría y Soporte</h3>
+            <p>
+              Asesoramiento en protocolos de toma y preparación de muestras,
+              redacción y control de procedimientos, y soporte para
+              acreditación.
+            </p>
+          </div>
+          <div class="servicio">
+            <div class="icono">📜</div>
+            <h3>Certificaciones ISO</h3>
+            <p>
+              Diseño e implementación de Sistemas de Gestión bajo normas
+              IRAM-ISO 9001, IRAM-ISO 14001 e ISO/IEC 17025.
+            </p>
+          </div>
+          <div class="servicio">
+            <div class="icono">🌱</div>
+            <h3>Soluciones Ambientales</h3>
+            <p>
+              Monitoreo y análisis de agua y efluentes, suelos, residuos y
+              emisiones; operación de plantas de tratamiento e informes EIA-IIA.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="plan" id="plan">
+      <div class="contenedor grilla">
+        <img src="/openwork-banner.jpg" alt="Open Work Nature" />
+        <div>
+          <h2>Tenemos un PLAN</h2>
+          <p>
+            Generamos propuestas y soluciones competentes a nuestros clientes,
+            dentro del marco del cuidado del medio ambiente y del trabajo
+            colaborativo.
+          </p>
+          <a class="boton" href="#contacto">Contactate</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Ellos también confían en nosotros</h2>
+        <div class="clientes">
+          <span class="cliente">Laboratorio Andino</span>
+          <span class="cliente">Aguas del Valle</span>
+          <span class="cliente">Industria del Norte</span>
+          <span class="cliente">AgroCatamarca</span>
+          <span class="cliente">Viveros del Sol</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contacto" id="contacto">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Tenés algún proyecto en mente?</h2>
+        <p class="subtitulo">No dudes en dejar tu mensaje.</p>
+        <form class="formulario" onsubmit="event.preventDefault(); this.reset(); alert('Demo: el mensaje no se envía.');">
+          <input type="text" name="nombre" placeholder="Nombre" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <textarea name="mensaje" rows="4" placeholder="Mensaje" required></textarea>
+          <button type="submit">Enviar mensaje</button>
+        </form>
+        <p class="datos">San Fernando del Valle de Catamarca · Catamarca, Argentina</p>
+        <p class="aviso">Demo sin backend: los datos no se envían.</p>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="anio"></span> Open Work Nature — Demo del sitio.
+    </footer>
+    <script>
+      document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
